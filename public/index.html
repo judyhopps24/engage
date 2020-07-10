@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Tic Tac Toe with Javascript</title>
+    
+	<link href="https://fonts.googleapis.com/css?family=Gloria+Hallelujah" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Raleway:300,300i,400,400i" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body>
+    <div class="menu" id="menu">
+        <h1>Tic Tac Toe</h1>   
+        <h4>Create a new Game</h4>
+        <input type="text" name="name" id="nameNew" placeholder="Enter your name" required>
+        <button id="new">New Game</button>
+        <br><br>
+        <h4>Join an existing game</h4>
+        <input type="text" name="name" id="nameJoin" placeholder="Enter your name" required>
+        <input type="text" name="room" id="room" placeholder="Enter Game ID" required>
+        <button id="join">Join Game</button>
+        <br><br>
+        <h4>Play with the Computer</h4>
+        <input type="text" name="name" id="namePlay" placeholder="Enter your name" required>
+        <button id="join">Play</button>
+    </div>
+
+	<div id="container">
+		<div id="sidebar_wrap">
+            <div class="winning-messege column-flex">               
+                <h2 id="userHello"></h2>
+                <h3 id="turn"></h3>
+                <img id="ttt-gif" src="" class="gif-display" /> 
+                <h2 id="winner"></h2>
+                <button id="play-again" class="all-button">Play Again</button>
+            </div>
+		</div>		
+		<div id="board_wrap">
+            
+            <div id="board">
+
+                <div class="square" id="button_00"></div>
+                <div class="square" id="button_01"></div>
+                <div class="square" id="button_02"></div>
+                <div class="square" id="button_10"></div>
+                <div class="square" id="button_11"></div>
+                <div class="square" id="button_12"></div>
+                <div class="square" id="button_20"></div>
+                <div class="square" id="button_21"></div>
+                <div class="square" id="button_22"></div>
+            </div>                   
+        </div>
+    </div>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="./index.js"></script>
+    
+</body>
+</html>
