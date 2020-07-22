@@ -9,6 +9,7 @@
     <link rel="stylesheet" type="text/css" href="index.css">
 </head>
 <body>
+    <script src="https://cdn.jsdelivr.net/gh/mathusummut/confetti.js/confetti.min.js"></script>
     <div class="menu" id="menu">
         <h1>Tic Tac Toe</h1>   
         <h4>Create a new Game</h4>
@@ -33,13 +34,20 @@
                 <img id="ttt-gif" src="" class="gif-display" /> 
                 <h2 id="winner"></h2>
                 <h2 class="endgame">
-                    <div class="text"></div>
+                    <div class="text"></div> 
                 </h2>
-                <button id="play-again" class="all-button">Play Again</button>
+                
+                <div id="streaks">
+                    <h2 id="s">streak : <span id="streak"> </span></h2>
+                    <h2 id="h-s">highest streak : <span id="highest-streak"> </span></h2>
+                </div>
+                <button id="play-again" class="play-again all-button">Play Again</button>
             </div>
 		</div>		
 		<div id="board_wrap">
-            
+            <div id="new-high-score" class="glow ">
+                But Highest Streak!!
+            </div>
             <div id="board">
 
                 <div class="square button_00" id="0"></div>
