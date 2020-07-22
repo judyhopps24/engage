@@ -4,6 +4,9 @@
     let computer;
     let game;
     let gameType=1;
+    let streak=0;
+    let highestStreak=0;
+    let PlayerName;
     const strID=['00','01','02','10','11','12','20','21','22'];
     const socket = io.connect('http://localhost:4000');
   
@@ -191,7 +194,7 @@
       {
         $("#winner").html(message);
         $("#turn").html("");
-      //  $('#play-again').css('display','block');
+        $('#play-again').css('display','block');
       }
       blurSquare(toBLurSquares){
         for(var i=0;i<6;i++)
@@ -203,6 +206,7 @@
   
     // Create a new game. Emit newGame event.
     $('#new').on('click', () => {
+      $('#streaks').css('display','none');
         $('#board').css('pointer-events','none');
       const name = $('#nameNew').val();
       if (!name) {
@@ -216,6 +220,7 @@
   
     // Join an existing game on the entered roomId. Emit the joinGame event.
     $('#join').on('click', () => {
+      $('#streaks').css('display','none');
       const name = $('#nameJoin').val();
       const roomID = $('#room').val();
       if (!name || !roomID) {
@@ -228,28 +233,22 @@
 
     $("#play-with-ai").on('click',()=>{
       gameType=0;
-      const name = $('#namePlay').val();
+      PlayerName = $('#namePlay').val();
       const message =
-      `Hello, ${name}. Its your move`;
+      `Hello, ${PlayerName}. Its your move`;
       $('.menu').css('display', 'none');
       $('#container').css('display', 'block');
       $('#userHello').html(message);
-      // //  player = new Player(name, P1);
-       
-      //   game.displayBoard(message);
-
     })
     $("#play-again").on('click',()=>{
       if(gameType===1)
         socket.emit('clearBoard',{room:game.getRoomId()})
       else
-        startGame();
-      //  $('#play-again').css('display','none');
+        startGame(true);
     });
   
     socket.on('activateBoard',message=>{        
         $('#board').css('pointer-events','all');
-     //   $('#play-again').css('display','none');
     })
     // New Game created by current client. Update the UI and create new Game var.
     socket.on('newGame', (data) => {
@@ -358,7 +357,7 @@
 
 
 
-    //minimax partt
+  // human vs AI
 
     var origBoard;
     const huPlayer = 'O';
@@ -375,9 +374,16 @@
     ]
     
     const cells = document.querySelectorAll('.square');
-    startGame();
+     startGame(true);
     
-    function startGame() {
+    function startGame(fresh) {
+      document.querySelector("#streaks").style.display = "block";
+      if(fresh===true)
+        streak=0;      
+      $('#streak').html(streak);
+      $('#new-high-score').css('display','none');
+      $('#highest-streak').html(highestStreak);
+      document.querySelector(".play-again").style.display = "none";
       document.querySelector(".endgame").style.display = "none";
       origBoard = Array.from(Array(9).keys());
       for (var i = 0; i < cells.length; i++) {
@@ -425,12 +431,35 @@
       for (var i = 0; i < cells.length; i++) {
         cells[i].removeEventListener('click', turnClick, false);
       }
-      declareWinner(gameWon.player == huPlayer ? "You win!" : "You lose.");
+      if(gameWon.player == huPlayer)
+      {
+        declareWinner(`${PlayerName} , you win!`);
+      }
+      else{
+        declareWinner(`${PlayerName} , you lose!`);
+      }
     }
     
     function declareWinner(who) {
       document.querySelector(".endgame").style.display = "block";
       document.querySelector(".endgame .text").innerText = who;
+      if(who=="Tie Game!")
+      {        
+        streak++;
+        $('#streak').html(streak);        
+        startGame(false);     
+      }
+      if(who==`${PlayerName} , you lose!`)
+      {
+        if(streak>highestStreak)
+        {
+          highestStreak=streak;
+          $('#highest-streak').html(highestStreak);
+          confetti.start(3000);
+          $('#new-high-score').css('display','block');
+        }   
+         document.querySelector(".play-again").style.display = "block";
+      }
     }
     
     function emptySquares() {
